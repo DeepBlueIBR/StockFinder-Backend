@@ -14,12 +14,12 @@ namespace api.Controllers
 
 	[Route("api/stock")]
 	[ApiController]
-	public class StockControllers : ControllerBase
+	public class StockController : ControllerBase
 	{
 		private readonly ApplicationDBContext _context;
 		private readonly IStockRepository _stockRepo;
 
-		public StockControllers(ApplicationDBContext context, IStockRepository stockRepo)
+		public StockController(ApplicationDBContext context, IStockRepository stockRepo)
 		{
 			_stockRepo = stockRepo;
 			_context = context;
@@ -32,9 +32,9 @@ namespace api.Controllers
 		        return BadRequest(ModelState);
 	        var stocks = await _stockRepo.GetAllAsync(query);
 	            
-			var stockDto = stocks.Select(s => s.ToStockDto());
+			var stockDto = stocks.Select(s => s.ToStockDto()).ToList();
             
-            return Ok(stocks);
+            return Ok(stockDto);
 
         }
 
